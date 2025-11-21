@@ -43,7 +43,7 @@ app.use(
   cors({
     // Replace this with your actual frontend URL on Vercel
     origin: process.env.FRONTEND_URL, // Vercel frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    // methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
