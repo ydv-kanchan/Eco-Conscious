@@ -39,10 +39,11 @@ mongoose
   .catch((error) => console.error("MongoDB Connection Error:", error.message));
 
 // Middleware
+// Configure CORS: allow production FRONTEND_URL, otherwise fall back to localhost for dev
+const frontendOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
 app.use(
   cors({
-    // Replace this with your actual frontend URL on Vercel
-    origin: process.env.FRONTEND_URL, // Vercel frontend URL
+    origin: frontendOrigin,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
