@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook for React Router
-import { API_BASE_URL } from "../config";
 
 const SignUp_Login = () => {
   const [error, setError] = useState(""); 
@@ -9,7 +8,7 @@ const SignUp_Login = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch(`${API_BASE_URL}/api/profile`, {
+      fetch("https://eco-conscious-z418.onrender.com/api/profile", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,7 +35,7 @@ const SignUp_Login = () => {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/login`,
+        "https://eco-conscious-z418.onrender.com/login",
         {
           method: "POST",
           headers: {

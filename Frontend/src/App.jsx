@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -81,4 +82,10 @@ function App() {
   );
 }
 
-export default App;
+const Root = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default Root;

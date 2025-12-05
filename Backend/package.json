@@ -32,6 +32,5 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "vite": "^5.4.10"
-  },
-  "type": "commonjs"
+  }
 }

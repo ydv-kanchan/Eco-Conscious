@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../config";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,13 +13,16 @@ const SignUp = () => {
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch(`${API_BASE_URL}/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://eco-conscious-z418.onrender.com/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         const responseData = await response.json();
@@ -29,17 +31,7 @@ const SignUp = () => {
         setIsSignedUp(true);
       } else {
         const responseData = await response.json();
-        console.error("Signup error response:", responseData);
-        // Support both { message: '...' } and { errors: [...] } shapes from backend
-        if (responseData.message) {
-          setError(responseData.message);
-        } else if (responseData.errors && Array.isArray(responseData.errors)) {
-          // join validation errors into one message
-          const messages = responseData.errors.map((e) => e.msg || e.message).join("; ");
-          setError(messages || "Signup failed");
-        } else {
-          setError("Signup failed");
-        }
+        setError(responseData.message || "Signup failed");
       }
     } catch (error) {
       setError("Error during signup");
