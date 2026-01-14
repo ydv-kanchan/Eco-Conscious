@@ -29,41 +29,55 @@ const SignUp_Login = () => {
   }, [navigate]);
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+  const email = event.target.email.value;
+  const password = event.target.password.value;
 
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+  console.log("Attempting login with:", { email, password });
+  console.log("API_BASE_URL:", API_BASE_URL);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include'
       }
+    );
 
-      const data = await response.json();
-      console.log("Login successful:", data);
-
-      const token = data.token;
-      if (token) {
-        localStorage.setItem('token', token); 
-        navigate("/home");                          
+    console.log("Response status:", response.status);
+    console.log("Response headers:", [...response.headers.entries()]);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error response text:", errorText);
+      try {
+        const errorData = JSON.parse(errorText);
+        throw new Error(errorData.message || "Login failed");
+      } catch (e) {
+        throw new Error(errorText || "Login failed");
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setError(error.message); // Display error message
     }
-  };
+
+    const data = await response.json();
+    console.log("Login successful:", data);
+
+    const token = data.token;
+    if (token) {
+      localStorage.setItem('token', token); 
+      console.log("Token saved to localStorage");
+      navigate("/home");                          
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    setError(error.message);
+  }
+};
 
   const handleSignUp = () => {
     // Navigate to the signup page

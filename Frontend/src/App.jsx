@@ -23,15 +23,22 @@ import Alternative from "./Components/Alternative";
 import Bestproduct from "./Components/Bestproduct";
 import LearnMore from "./Components/LearnMore";
 
-const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://eco-conscious.vercel.app"
-    : "http://localhost:3000";
+// Import config
+import { API_BASE_URL } from "./config";
 
 function App() {
   const token = localStorage.getItem("token");
   const isAuthenticated = token !== null;
   const location = useLocation();
+
+  // Log environment for debugging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('App initialized with:', {
+      API_BASE_URL,
+      isAuthenticated,
+      pathname: location.pathname
+    });
+  }
 
   return (
     <>
